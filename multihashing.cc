@@ -10,6 +10,7 @@
 #include "algorithms/main/blake/blake.h"
 #include "algorithms/main/blake/blake2s.h"
 #include "algorithms/main/c11/c11.h"
+#include "algorithms/main/eaglesong/eaglesong.h"
 #include "algorithms/main/equihash/equihash.h"
 #include "algorithms/main/fugue/fugue.h"
 #include "algorithms/main/ghostrider/ghostrider.h"
@@ -111,6 +112,24 @@ NAN_METHOD(c11) {
 
   // Hash Input Data and Return Output
   c11_hash(input, output, input_len);
+  info.GetReturnValue().Set(Nan::CopyBuffer(output, 32).ToLocalChecked());
+}
+
+// Eaglesong Algorithm
+NAN_METHOD(eaglesong)
+{
+
+  // Check Arguments for Errors
+  if (info.Length() < 1)
+    return THROW_ERROR_EXCEPTION("You must provide one argument.");
+
+  // Process/Define Passed Parameters
+  char *input = Buffer::Data(Nan::To<v8::Object>(info[0]).ToLocalChecked());
+  uint32_t input_len = Buffer::Length(Nan::To<v8::Object>(info[0]).ToLocalChecked());
+  char output[32];
+
+  // Hash Input Data and Return Output
+  eaglesong_hash(input, output, input_len);
   info.GetReturnValue().Set(Nan::CopyBuffer(output, 32).ToLocalChecked());
 }
 
@@ -560,6 +579,7 @@ NAN_MODULE_INIT(init) {
   Nan::Set(target, Nan::New("blake").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(blake)).ToLocalChecked());
   Nan::Set(target, Nan::New("blake2s").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(blake2s)).ToLocalChecked());
   Nan::Set(target, Nan::New("c11").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(c11)).ToLocalChecked());
+  Nan::Set(target, Nan::New("eaglesong").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(eaglesong)).ToLocalChecked());
   Nan::Set(target, Nan::New("equihash").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(equihash)).ToLocalChecked());
   Nan::Set(target, Nan::New("firopow").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(firopow)).ToLocalChecked());
   Nan::Set(target, Nan::New("fugue").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(fugue)).ToLocalChecked());
