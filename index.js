@@ -33,6 +33,12 @@ module.exports = {
   'c11': algorithms.c11,
 
   /**
+   * @param input {Buffer} Initial buffer to hash
+   * @returns {Buffer} Hashing result
+   */
+  'eaglesong': algorithms.eaglesong,
+
+  /**
    * @param header {Buffer} Equihash header hash
    * @param solution {Buffer} Equihash solution hash
    * @param personalization {number} Personalization string
