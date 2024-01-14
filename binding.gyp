@@ -10,6 +10,7 @@
                 "algorithms/main/blake/blake.c",
                 "algorithms/main/blake/blake2s.c",
                 "algorithms/main/c11/c11.c",
+                "algorithms/main/eaglesong/eaglesong.c",
                 "algorithms/main/equihash/equihash.cpp",
                 "algorithms/main/fugue/fugue.c",
                 "algorithms/main/ghostrider/ghostrider.c",
